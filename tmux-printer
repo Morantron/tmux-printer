@@ -7,7 +7,7 @@ PATTERN_FORMAT="#\[\([^]]*\)\]"
 # TODO use tput
 
 if [[ $1 == '--debug' ]]; then
-  cat | awk -f ./tmux-printer.awk
+  echo "$*" | awk -f ./tmux-printer.awk
 else
-  eval "echo -e $(cat | awk -f ./tmux-printer.awk)"
+  eval "echo -e $(echo "$*" | awk -f ./tmux-printer.awk)"
 fi
