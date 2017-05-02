@@ -20,6 +20,7 @@ _Stuff in ~~strikethrough~~ is not supported_
 * `bright/nobright`
 * `underscore/nounderscore`
 * `italics/noitalics`
+* `none`
 * ~~`strikethrough/nostrikethrough`~~
 * ~~`blink/noblink`~~
 * ~~`hidden/nohidden`~~
