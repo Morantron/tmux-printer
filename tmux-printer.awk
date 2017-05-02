@@ -64,12 +64,26 @@ function reset_to_applied_styles() {
   return style_output
 }
 
+function unset_applied_styles() {
+  for (applied_style in applied_styles) {
+    if (applied_styles[applied_style] == "1") {
+      applied_styles[applied_style] = "0"
+    }
+  }
+
+  return "$(tput sgr0)"
+}
+
 function tput_style(statement) {
   match(statement, /(no)?(.*)/, style_groups)
 
   disable_style = style_groups[1] == "no"
   style_to_apply = style_groups[2]
   style_output = ""
+
+  if (statement == "none") {
+    return unset_applied_styles()
+  }
 
   if (disable_style) {
     applied_styles[style_to_apply]="0"
@@ -80,17 +94,17 @@ function tput_style(statement) {
   }
 
   if (style_to_apply == "bright")
-    style_output ="$(tput bold)"
+    style_output = "$(tput bold)"
   if (style_to_apply == "bold")
-    style_output ="$(tput bold)"
+    style_output = "$(tput bold)"
   if (style_to_apply == "dim")
-    style_output ="$(tput dim)"
+    style_output = "$(tput dim)"
   if (style_to_apply == "underscore")
-    style_output ="$(tput smul)"
+    style_output = "$(tput smul)"
   if (style_to_apply == "reverse")
-    style_output ="$(tput rev)"
+    style_output = "$(tput rev)"
   if (style_to_apply == "italics")
-    style_output ="$(tput sitm)"
+    style_output = "$(tput sitm)"
 
   return style_output
 }
