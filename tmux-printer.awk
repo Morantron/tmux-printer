@@ -40,8 +40,28 @@ function tput_color(statement)
     params="6"
   if (color == "white")
     params="7"
+  if (color == "default") {
+    if (layer == "bg")
+      applied_styles[current_bg] = "0"
+    else
+      applied_styles[current_fg] = "0"
+
+    return reset_to_applied_styles()
+  }
 
   return "$(tput " capname " " params ")"
+}
+
+function reset_to_applied_styles() {
+  style_output = "$(tput sgr0)"
+
+  for (applied_style in applied_styles) {
+    if (applied_styles[applied_style] == "1") {
+      style_output = style_output tput(applied_style)
+    }
+  }
+
+  return style_output
 }
 
 function tput_style(statement) {
@@ -52,18 +72,12 @@ function tput_style(statement) {
   style_output = ""
 
   if (disable_style) {
-    style_output = "$(tput sgr0)"
     applied_styles[style_to_apply]="0"
     style_to_apply = ""
-
-    for (applied_style in applied_styles) {
-      if (applied_styles[applied_style] == "1") {
-        style_output = style_output tput(applied_style)
-      }
-    }
+    style_output = reset_to_applied_styles()
+  } else {
+    applied_styles[style_to_apply] = "1"
   }
-
-  applied_styles[style_to_apply] = "1"
 
   if (style_to_apply == "bright")
     style_output ="$(tput bold)"
@@ -73,18 +87,10 @@ function tput_style(statement) {
     style_output ="$(tput dim)"
   if (style_to_apply == "underscore")
     style_output ="$(tput smul)"
-  # TODO
-  #if (style_to_apply == "blink")
-    #style_output ="$(tput blink)"
   if (style_to_apply == "reverse")
     style_output ="$(tput rev)"
-  if (style_to_apply == "hidden")
-    style_output ="$(tput hidden)"
   if (style_to_apply == "italics")
     style_output ="$(tput sitm)"
-  #TODO
-  #if (style_to_apply == "strikethrough")
-    #style_output ="$(tput strikethrough)"
 
   return style_output
 }
