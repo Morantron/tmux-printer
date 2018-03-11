@@ -3,7 +3,7 @@
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [[ $1 == '--debug' ]]; then
-  echo "$*" | awk -f $CURRENT_DIR/tmux-printer.awk
+  echo "$*" | gawk -f $CURRENT_DIR/tmux-printer.awk
 else
-  eval "echo -e \"$(echo "$*" | awk -f $CURRENT_DIR/tmux-printer.awk)\""
+  eval "echo -e \"$(echo "$*" | gawk -f $CURRENT_DIR/tmux-printer.awk)\""
 fi
